@@ -21,9 +21,9 @@ class TextBox(TextInput):
     def draw_box(self):
         box = turtle.clone()
         
-        box.goto
+        box.goto(0,0)
         
-        box.pendown(0,0)
+        box.pendown()
         box.goto(0,100)
         box.goto(200,100)
         box.goto(200,0)
@@ -31,16 +31,33 @@ class TextBox(TextInput):
     def write_msg(self):
         self.writer.clear()
         self.writer.write(self.new_msg)
-        self.writer.goto (7,97)
+        self.writer.goto (7,74)
         
             
          
-         
-            
-            
-        
 
 
+        print('test')
+        if my_turtle is None :
+            #If no turtle given, create new one
+            self.turtle=turtle.clone()
+        else:
+            self.turtle=my_turtle
+
+        self.turtle.speed(0)
+        self.turtle.hideturtle()
+        self.turtle.penup()
+        self.turtle.goto(pos)
+
+        if shape is None:
+            self.turtle.shape('circle')
+            self.turtle.shapesize(2,10)
+        else:
+            turtle.addshape(shape)
+            self.turtle.shape(shape)
+        self.turtle.showturtle()
+        self.turtle.onclick(self.fun) #Link listener to button function
+        turtle.listen()
 
     
 #Because TextInput is an abstract class, you must implement its abstract
@@ -219,7 +236,7 @@ if __name__ == '__main__':
     my_view=View()
     _WAIT_TIME=200 #Time between check for new message, ms
     def check() :
-        #msg_in=my_view.my_client.receive()
+#msg_in=my_view.my_client.receive()
         msg_in=my_view.get_client().receive()
         if not(msg_in is None):
             if msg_in==Client._END_MSG:
