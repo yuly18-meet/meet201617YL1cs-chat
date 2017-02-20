@@ -28,14 +28,20 @@ class TextBox(TextInput):
         box.goto(200,100)
         box.goto(200,0)
         box.goto(0,0)
+        hide_turtle
+        
     def write_msg(self):
         self.writer.clear()
         self.writer.write(self.new_msg)
         self.writer.goto (7,74)
         
-            
-         
+class sendbutten(butten):
+    def fun(self , x=None, y=None):
+        send_msg()
 
+    def __init__(self)
+         
+'''
 
         print('test')
         if my_turtle is None :
@@ -57,7 +63,7 @@ class TextBox(TextInput):
             self.turtle.shape(shape)
         self.turtle.showturtle()
         self.turtle.onclick(self.fun) #Link listener to button function
-        turtle.listen()
+        turtle.listen()'''
 
     
 #Because TextInput is an abstract class, you must implement its abstract
