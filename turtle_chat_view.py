@@ -28,18 +28,41 @@ class TextBox(TextInput):
         box.goto(200,100)
         box.goto(200,0)
         box.goto(0,0)
-        hide_turtle
+        box.hideturtle()
         
     def write_msg(self):
         self.writer.clear()
         self.writer.write(self.new_msg)
         self.writer.goto (7,74)
         
-class sendbutten(butten):
-    def fun(self , x=None, y=None):
-        send_msg()
+class SendButton(Button):
+    def __init__(self,my_turtle=None,shape=None,pos=(100,-100)):
+        if my_turtle is None :
+            self.turtle=turtle.clone()
+        else:
+            self.turtle=my_turtle
 
-    def __init__(self)
+
+        self.turtle.speed(0)
+        self.turtle.hideturtle()
+        self.turtle.penup()
+        self.turtle.goto(pos)
+
+        if shape is None:
+            self.turtle.shape('circle')
+            self.turtle.shapesize(4.5,4.5)
+        else:
+            turtle.addshape(shape)
+            self.turtle.shape(shape)
+        self.turtle.showturtle()
+        self.turtle.onclick(self.fun) 
+        turtle.listen()
+    
+    def fun(self , x=None, y=None):
+        self.view.send_msg()
+
+    
+        
          
 '''
 
@@ -132,10 +155,18 @@ class View:
         ###
         #Store the username and partner_name into the instance.
         ###
-
+        self.username=username
+        self.partner_name=partner_name
         ###
         #Make a new client object and store it in this instance of View
         #(i.e. self).  The name of the instance should be my_client
+        
+        my_client = Client()
+        self.my_client = my_client
+        textbox = TextBox()
+        self.textbox= textbox
+        self.textbox.draw_box()
+        self.button = SendButton()
         ###
 
         ###
@@ -163,12 +194,19 @@ class View:
         #You can use the clear() and write() methods to erase
         #and write messages for each
         ###
-
+        import turtle
+        self.msg1 =turtle.clone()
+        self.msg1.goto (7,74)
+        
+        #self.msg2 =turtle.clone()
+        #self.msg2.goto ()
+        
+        
         ###
         #Create a TextBox instance and a SendButton instance and
         #Store them inside of this instance
         ###
-
+        
         ###
         #Call your setup_listeners() function, if you have one,
         #and any other remaining setup functions you have invented.
