@@ -36,8 +36,9 @@ class TextBox(TextInput):
         self.writer.goto (7,74)
         
 class SendButton(Button):
-    def __init__(self,my_turtle=None,shape=None,pos=(100,-100)):
-        if my_turtle is None :
+    def __init__(self,view, my_turtle=None,shape=None,pos=(100,-100)):
+        
+        if my_turtle==None :
             self.turtle=turtle.clone()
         else:
             self.turtle=my_turtle
@@ -47,7 +48,7 @@ class SendButton(Button):
         self.turtle.hideturtle()
         self.turtle.penup()
         self.turtle.goto(pos)
-
+        screen=turtle.Screen()
         if shape is None:
             self.turtle.shape('circle')
             self.turtle.shapesize(4.5,4.5)
@@ -57,8 +58,8 @@ class SendButton(Button):
         self.turtle.showturtle()
         self.turtle.onclick(self.fun) 
         turtle.listen()
-    
-    def fun(self , x=None, y=None):
+        self.view=view
+    def fun(self , x=100, y=300):
         self.view.send_msg()
 
     
@@ -166,7 +167,7 @@ class View:
         textbox = TextBox()
         self.textbox= textbox
         self.textbox.draw_box()
-        self.button = SendButton()
+        self.button = SendButton(self)
         ###
 
         ###
@@ -194,9 +195,10 @@ class View:
         #You can use the clear() and write() methods to erase
         #and write messages for each
         ###
-        import turtle
-        self.msg1 =turtle.clone()
-        self.msg1.goto (7,74)
+        ##import turtle
+    # self.msg1 =turtle.clone()
+     #   self.msg1.goto (7,74)
+        ##
         
         #self.msg2 =turtle.clone()
         #self.msg2.goto ()
@@ -213,16 +215,24 @@ class View:
         ###
 
     def send_msg(self):
+        
+        self.my_client.send(self.textbox.new_msg)
+        self.msg_queue.insert(0,self.textbox.new_msg)
+        self.textbox.clear_msg()
+        self.display_msg()
+        
         '''
-        You should implement this method.  It should call the
-        send() method of the Client object stored in this View
-        instance.  It should also update the list of messages,
-        self.msg_queue, to include this message.  It should
+        You should implement this method.
+        1.It should call the send() method of the Client object stored in this View
+        instance.
+        2. It should also update the list of messages,
+        self.msg_queue, to include this message.
+        3.It should
         clear the textbox text display (hint: use the clear_msg method).
-        It should call self.display_msg() to cause the message
+        4.It should call self.display_msg() to cause the message
         display to be updated.
         '''
-        pass
+    
 
     def get_msg(self):
         return self.textbox.get_msg()
@@ -263,7 +273,11 @@ class View:
         This method should update the messages displayed in the screen.
         You can get the messages you want from self.msg_queue
         '''
-        pass
+        x=5
+        for i in range (x):
+            self.turtle_queue[i].clear()
+        for i in range (x):
+            self.turtle_queue[j].write(self.msg_queue[j])
 
     def get_client(self):
         return self.my_client
